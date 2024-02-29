@@ -8,9 +8,8 @@ import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
-@Getter
-public class Parent{
 @Setter
+@Getter
 public class Parent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
