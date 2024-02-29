@@ -7,9 +7,11 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class JwtToken {
+public class TokenDto {
     private String grantType;
     private String accessToken;
     private String refreshToken;
+    private Long accessTokenExpiresIn;
+    private String Key;
 
 }

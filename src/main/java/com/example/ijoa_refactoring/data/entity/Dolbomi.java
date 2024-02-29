@@ -2,12 +2,22 @@ package com.example.ijoa_refactoring.data.entity;
 
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @NoArgsConstructor
 @Getter
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode(of="dolbomiId")
 public class Dolbomi {
 
     @Id
@@ -27,5 +37,10 @@ public class Dolbomi {
     private String phone;
 
     private int care_auth;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role; // 역할 매핑 추가
+
+
 
 }

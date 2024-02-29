@@ -3,11 +3,12 @@ package com.example.ijoa_refactoring.data.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @NoArgsConstructor
 @Getter
-public class Parent {
+public class Parent{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int parentId;
@@ -23,4 +24,7 @@ public class Parent {
     private String address;
     private String gender;
     private String phone;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role; // 역할 매핑 추가
 }
