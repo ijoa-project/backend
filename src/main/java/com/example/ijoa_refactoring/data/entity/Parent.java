@@ -4,11 +4,14 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
+import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
 @Getter
 public class Parent{
+@Setter
+public class Parent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int parentId;

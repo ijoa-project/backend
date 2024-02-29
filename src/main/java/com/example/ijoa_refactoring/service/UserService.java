@@ -45,12 +45,18 @@ public class UserService {
     @Transactional
     public TokenDto login(LoginDto loginRequestDto) {
 
-        UsernamePasswordAuthenticationToken authenticationToken = loginRequestDto.toAuthentication(loginRequestDto.getUsername(),loginRequestDto.getPassword());
+        UsernamePasswordAuthenticationToken authenticationToken = loginRequestDto.toAuthentication(loginRequestDto.getUsername(), loginRequestDto.getPassword());
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
 
         return tokenProvider.generateTokenDto(authentication);
     }
-
 }
+//import com.example.ijoa_refactoring.data.dto.JoinDto;
+//import org.springframework.stereotype.Service;
+//
+//@Service
+//public interface UserService {
+//    void registerUser(JoinDto joinDto);
+//}
