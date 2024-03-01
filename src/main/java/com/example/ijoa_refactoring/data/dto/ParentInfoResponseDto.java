@@ -3,8 +3,10 @@ package com.example.ijoa_refactoring.data.dto;
 import com.example.ijoa_refactoring.data.entity.Parent;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class ParentInfoResponseDto {
     String id;
@@ -16,15 +18,4 @@ public class ParentInfoResponseDto {
     String email;
     String phone;
 
-
-    public ParentInfoResponseDto(Parent parent) {
-        this.id = parent.getId();
-        this.name = parent.getName();
-        this.pw = parent.getPw();
-        this.birth = parent.getBirth();
-        this.address = parent.getAddress();
-        this.gender = parent.getGender();
-        this.email = parent.getEmail();
-        this.phone = parent.getPhone();
-    }
 }
