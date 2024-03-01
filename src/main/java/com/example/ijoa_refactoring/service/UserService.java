@@ -36,7 +36,7 @@ public class UserService {
 
 
     public void registerUser(JoinDto joinDto){
-        if(joinDto.equals("dolbomi")){
+        if(joinDto.getPosition().equals("dolbomi")){
             Dolbomi dolbomi = new Dolbomi();
             dolbomi.setName(joinDto.getName());
             dolbomi.setId(joinDto.getId());
@@ -46,7 +46,7 @@ public class UserService {
             dolbomi.setPhone(joinDto.getPhone());
             dolbomi.setEmail(joinDto.getEmail());
             dolbomiRepository.save(dolbomi);
-        } else if (joinDto.equals("parent")) {
+        } else if (joinDto.getPosition().equals("parent")) {
             Parent parent = new Parent();
             parent.setName(joinDto.getName());
             parent.setId(joinDto.getId());
