@@ -26,9 +26,9 @@ public class UserController {
         return ResponseEntity.ok(userService.login(loginRequestDto));
     }
 
-//    @PostMapping("/join")
-//    public ResponseEntity<String> join(@RequestBody JoinDto joinRequestDto) {
-//        userService.registerUser(joinRequestDto);
-//        return ResponseEntity.ok("성공적으로 회원가입이 완료되었습니다.");
-//    }
+    @PostMapping("/join")
+    public ResponseEntity<String> join(@RequestBody JoinDto joinRequestDto) {
+        userService.registerUser(joinRequestDto);
+        return ResponseEntity.ok("성공적으로 회원가입이 완료되었습니다.");
+    }
 }
