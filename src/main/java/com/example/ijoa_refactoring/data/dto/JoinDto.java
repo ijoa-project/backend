@@ -1,10 +1,12 @@
 package com.example.ijoa_refactoring.data.dto;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class JoinDto {
     private String position;
     private String name;
