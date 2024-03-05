@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ParentRepository extends JpaRepository<Parent, Long> {
+public interface ParentRepository extends JpaRepository<Parent, Integer> {
     Parent findById(String userId);
     @Transactional
     Parent save(Parent parent);
