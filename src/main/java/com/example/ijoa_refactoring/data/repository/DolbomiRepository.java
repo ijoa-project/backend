@@ -14,4 +14,6 @@ public interface DolbomiRepository extends JpaRepository<Dolbomi,Long> {
 
     @Transactional
     Dolbomi save(Dolbomi dolbomi);
+
+    Boolean existsById(String id);
 }

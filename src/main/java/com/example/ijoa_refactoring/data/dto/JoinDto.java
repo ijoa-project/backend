@@ -12,8 +12,6 @@ public class JoinDto {
     private String name;
     private String id;
     private String pw;
-    private String pwCheck;
-    private String nickname;
     private String birthDate;
     private String gender;
     private String phone;

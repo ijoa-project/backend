@@ -5,8 +5,8 @@ import com.example.ijoa_refactoring.data.dto.LoginDto;
 import com.example.ijoa_refactoring.data.dto.TokenDto;
 import com.example.ijoa_refactoring.data.entity.Dolbomi;
 import com.example.ijoa_refactoring.data.entity.Parent;
-import com.example.ijoa_refactoring.jwt.TokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.ijoa_refactoring.data.entity.UserRole;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -21,52 +21,57 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private DolbomiRepository dolbomiRepository;
     private ParentRepository parentRepository;
-    //private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final AuthenticationManagerBuilder managerBuilder;
-    private final TokenProvider tokenProvider;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-    public UserService(DolbomiRepository dolbomiRepository,ParentRepository parentRepository, AuthenticationManagerBuilder managerBuilder, TokenProvider tokenProvider) {
+
+    public UserService(DolbomiRepository dolbomiRepository, ParentRepository parentRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.dolbomiRepository = dolbomiRepository;
         this.parentRepository = parentRepository;
-        this.managerBuilder = managerBuilder;
-        this.tokenProvider = tokenProvider;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
 
 
-    public void registerUser(JoinDto joinDto){
-        if(joinDto.equals("dolbomi")){
+    public String registerUser(JoinDto joinDto){
+
+
+        if(dolbomiRepository.existsById(joinDto.getId())){
+            return "아이디가 중복입니다.";
+        }else if(parentRepository.existsById(joinDto.getId())){
+            return "아이디가 중복입니다.";
+        }
+
+        if(joinDto.getPosition().equals("dolbomi")){
             Dolbomi dolbomi = new Dolbomi();
             dolbomi.setName(joinDto.getName());
             dolbomi.setId(joinDto.getId());
-            dolbomi.setPw(joinDto.getPw());
+            dolbomi.setRole(UserRole.Dolbomi);
+            dolbomi.setPw(bCryptPasswordEncoder.encode(joinDto.getPw()));
             dolbomi.setGender(joinDto.getGender());
             dolbomi.setBirth(joinDto.getBirthDate());
             dolbomi.setPhone(joinDto.getPhone());
             dolbomi.setEmail(joinDto.getEmail());
             dolbomiRepository.save(dolbomi);
-        } else if (joinDto.equals("parent")) {
+
+        } else if (joinDto.getPosition().equals("parent")) {
             Parent parent = new Parent();
             parent.setName(joinDto.getName());
+            parent.setRole(UserRole.Parent);
             parent.setId(joinDto.getId());
-            parent.setPw(joinDto.getPw());
+            parent.setPw(bCryptPasswordEncoder.encode(joinDto.getPw()));
             parent.setGender(joinDto.getGender());
             parent.setBirth(joinDto.getBirthDate());
             parent.setPhone(joinDto.getPhone());
             parent.setEmail(joinDto.getEmail());
             parentRepository.save(parent);
 
+
         }
+        return "회원가입 성공";
     }
 
-    @Transactional
-    public TokenDto login(LoginDto requestDto) {
 
-        UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication(requestDto.getUsername(),requestDto.getPassword());
 
-        Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
 
-        return tokenProvider.generateTokenDto(authentication);
-    }
 }
