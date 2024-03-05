@@ -10,4 +10,6 @@ public interface ParentRepository extends JpaRepository<Parent, Integer> {
     Parent findById(String userId);
     @Transactional
     Parent save(Parent parent);
+
+    Boolean existsById(String userId);
 }

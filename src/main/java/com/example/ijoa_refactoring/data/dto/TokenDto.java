@@ -12,6 +12,7 @@ public class TokenDto {
     private String accessToken;
     private String refreshToken;
     private Long accessTokenExpiresIn;
+    private int userId;
     private String Key;
 
 }

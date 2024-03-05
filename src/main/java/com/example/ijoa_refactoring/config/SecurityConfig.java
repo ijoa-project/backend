@@ -1,50 +1,70 @@
 package com.example.ijoa_refactoring.config;
 
 
-import com.example.ijoa_refactoring.jwt.JwtAccessDeniedHandler;
-import com.example.ijoa_refactoring.jwt.JwtAuthenticationEntryPoint;
-import com.example.ijoa_refactoring.jwt.JwtSecurityConfig;
-import com.example.ijoa_refactoring.jwt.TokenProvider;
-import lombok.RequiredArgsConstructor;
+import com.example.ijoa_refactoring.jwt.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.CorsFilter;
 
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
-@EnableMethodSecurity
 public class SecurityConfig {
 
-    private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final CorsFilter corsFilter;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
+    private final AuthenticationConfiguration authenticationConfiguration;
+
+    private final JWTUtil jwtUtil;
+
+    public SecurityConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, CorsFilter corsFilter, JwtAccessDeniedHandler jwtAccessDeniedHandler, AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil) {
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.corsFilter = corsFilter;
+        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+        this.authenticationConfiguration = authenticationConfiguration;
+        this.jwtUtil = jwtUtil;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
+        return configuration.getAuthenticationManager();
+    }
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 우리는 jwt 토큰을 이용해서 인증할 것이기 때문에, 세션을 사용하지 않겠다.
+                .csrf((auth)->auth.disable());
+        http
+                .formLogin((auth)->auth.disable());
+        http
+                .httpBasic((auth)-> auth.disable());
+        http.authorizeHttpRequests((auth)->auth
+                .requestMatchers("/api/user/login","/","/api/user/join").permitAll()
+                .requestMatchers("/admin").hasRole("ADMIN")
+                .anyRequest().authenticated());
+        http
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
-                .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .accessDeniedHandler(jwtAccessDeniedHandler)
 
-                .and()
-                .formLogin().disable() // 우리는 jwt 토큰을 이용해서 인증할 것이기 때문에, form 태그를 만들어서 로그인 하는 방식을 사용하지 않겠다.
-                .httpBasic().disable() // 우리는 jwt 토큰을 이용해서 인증할 것이기 때문에, httpBasic 방식을 사용하지 않겠다.
-                .apply(new JwtSecurityConfig(tokenProvider)) // 커스텀 필터 등록
+        http
+                .sessionManagement((session)->session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-                .and()
-                .authorizeRequests()
-                .anyRequest().permitAll()
-        ;
         return http.build();
     }
 }

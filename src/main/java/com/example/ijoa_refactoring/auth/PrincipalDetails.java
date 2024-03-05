@@ -28,7 +28,13 @@ public class PrincipalDetails implements UserDetails {
         collect.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return dolbomi.getRole().toString();
+                if(dolbomi!=null) {
+                    return dolbomi.getRole().toString();
+                }
+                else if(parent!=null){
+                    return parent.getRole().toString();
+                }
+                return "없는 사용자입니다.";
             }
         });
 
@@ -37,11 +43,23 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public String getPassword() {
+        if(dolbomi!=null) {
+            return dolbomi.getPw();
+        }
+        else if(parent!=null){
+            return parent.getPw();
+        }
         return null;
     }
 
     @Override
     public String getUsername() {
+        if(dolbomi!=null) {
+            return dolbomi.getId();
+        }
+        else if(parent!=null){
+            return parent.getId();
+        }
         return null;
     }
 

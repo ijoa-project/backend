@@ -20,7 +20,6 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(of="dolbomiId")
 @Setter
 public class Dolbomi {
 
