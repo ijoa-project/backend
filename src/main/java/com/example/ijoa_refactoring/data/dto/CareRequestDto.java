@@ -2,12 +2,14 @@ package com.example.ijoa_refactoring.data.dto;
 
 import jakarta.persistence.ElementCollection;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class CareRequestDto {
     @ElementCollection
     private List<String> careType;
@@ -20,10 +22,7 @@ public class CareRequestDto {
     private String regularity;
     private String childGender;
     private int childAge;
-    private String city;
-    private String gu;
-    private String dong;
-    private String detailAddress;
+    private String region;
     private String title;
     private String content;
 }
