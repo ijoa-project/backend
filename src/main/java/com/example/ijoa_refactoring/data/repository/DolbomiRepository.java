@@ -10,8 +10,7 @@ public interface DolbomiRepository extends JpaRepository<Dolbomi,Integer> {
 
     Dolbomi findById(String userId);
 
-    @Transactional
-    Dolbomi save(Dolbomi dolbomi);
+
 
     Boolean existsById(String id);
 }
