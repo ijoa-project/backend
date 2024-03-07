@@ -8,9 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DolbomiRepository extends JpaRepository<Dolbomi,Integer> {
 
-    Dolbomi findById(String userId);
+    Dolbomi findByUserId(String userId);
 
-
-
-    Boolean existsById(String id);
+    Boolean existsByUserId(String id);
 }

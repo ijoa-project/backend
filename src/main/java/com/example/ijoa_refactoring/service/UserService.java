@@ -1,20 +1,12 @@
 package com.example.ijoa_refactoring.service;
 
 import com.example.ijoa_refactoring.data.dto.JoinDto;
-import com.example.ijoa_refactoring.data.dto.LoginDto;
-import com.example.ijoa_refactoring.data.dto.TokenDto;
 import com.example.ijoa_refactoring.data.entity.Dolbomi;
 import com.example.ijoa_refactoring.data.entity.Parent;
-import com.example.ijoa_refactoring.data.entity.UserRole;
-import org.springframework.http.HttpHeaders;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.ijoa_refactoring.data.repository.DolbomiRepository;
 import com.example.ijoa_refactoring.data.repository.ParentRepository;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -36,17 +28,17 @@ public class UserService {
     public String registerUser(JoinDto joinDto){
 
 
-        if(dolbomiRepository.existsById(joinDto.getId())){
+        if(dolbomiRepository.existsByUserId(joinDto.getId())){
             return "아이디가 중복입니다.";
-        }else if(parentRepository.existsById(joinDto.getId())){
+        }else if(parentRepository.existsByUserId(joinDto.getId())){
             return "아이디가 중복입니다.";
         }
 
         if(joinDto.getPosition().equals("dolbomi")){
             Dolbomi dolbomi = new Dolbomi();
             dolbomi.setName(joinDto.getName());
-            dolbomi.setId(joinDto.getId());
-            dolbomi.setRole(UserRole.Dolbomi);
+            dolbomi.setUserId(joinDto.getId());
+            dolbomi.setRole("Dolbomi");
             dolbomi.setPw(bCryptPasswordEncoder.encode(joinDto.getPw()));
             dolbomi.setGender(joinDto.getGender());
             dolbomi.setBirth(joinDto.getBirthDate());
@@ -57,8 +49,8 @@ public class UserService {
         } else if (joinDto.getPosition().equals("parent")) {
             Parent parent = new Parent();
             parent.setName(joinDto.getName());
-            parent.setRole(UserRole.Parent);
-            parent.setId(joinDto.getId());
+            parent.setRole("Parent");
+            parent.setUserId(joinDto.getId());
             parent.setPw(bCryptPasswordEncoder.encode(joinDto.getPw()));
             parent.setGender(joinDto.getGender());
             parent.setBirth(joinDto.getBirthDate());

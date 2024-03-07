@@ -20,7 +20,6 @@ public class PrincipalDetails implements UserDetails {
     }
     public PrincipalDetails(Parent parent) {
         this.parent = parent;
-
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -29,10 +28,10 @@ public class PrincipalDetails implements UserDetails {
             @Override
             public String getAuthority() {
                 if(dolbomi!=null) {
-                    return dolbomi.getRole().toString();
+                    return dolbomi.getRole();
                 }
                 else if(parent!=null){
-                    return parent.getRole().toString();
+                    return parent.getRole();
                 }
                 return "없는 사용자입니다.";
             }
@@ -55,10 +54,10 @@ public class PrincipalDetails implements UserDetails {
     @Override
     public String getUsername() {
         if(dolbomi!=null) {
-            return dolbomi.getId();
+            return dolbomi.getUserId();
         }
         else if(parent!=null){
-            return parent.getId();
+            return parent.getUserId();
         }
         return null;
     }

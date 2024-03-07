@@ -19,18 +19,13 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final CorsFilter corsFilter;
-    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
 
     private final AuthenticationConfiguration authenticationConfiguration;
 
     private final JWTUtil jwtUtil;
 
-    public SecurityConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, CorsFilter corsFilter, JwtAccessDeniedHandler jwtAccessDeniedHandler, AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil) {
-        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
-        this.corsFilter = corsFilter;
-        this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+    public SecurityConfig(CorsFilter corsFilter, AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil) {
         this.authenticationConfiguration = authenticationConfiguration;
         this.jwtUtil = jwtUtil;
     }
@@ -53,9 +48,10 @@ public class SecurityConfig {
                 .formLogin((auth)->auth.disable());
         http
                 .httpBasic((auth)-> auth.disable());
+
         http.authorizeHttpRequests((auth)->auth
-                .requestMatchers("/api/user/login","/","/api/user/join").permitAll()
-                .requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers("/login","/","/api/user/join").permitAll()
+//                .requestMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().authenticated());
 
         http
