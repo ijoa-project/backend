@@ -11,10 +11,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class PrincipalDetailsService implements UserDetailsService {
-    private DolbomiRepository dolbomiRepository;
-    private ParentRepository parentRepository;
+    private final DolbomiRepository dolbomiRepository;
+    private final  ParentRepository parentRepository;
 
     public PrincipalDetailsService(DolbomiRepository dolbomiRepository, ParentRepository parentRepository){
         this.dolbomiRepository = dolbomiRepository;
@@ -22,8 +21,9 @@ public class PrincipalDetailsService implements UserDetailsService {
     }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Dolbomi dolbomi = dolbomiRepository.findById(username);
-        Parent parent = parentRepository.findById(username);
+
+        Dolbomi dolbomi = dolbomiRepository.findByUserId(username);
+        Parent parent = parentRepository.findByUserId(username);
 
         if(dolbomi != null){
             return new PrincipalDetails(dolbomi);
@@ -31,7 +31,9 @@ public class PrincipalDetailsService implements UserDetailsService {
         else if(parent!=null){
             return new PrincipalDetails(parent);
         }
+        else {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
 
-        return null;
     }
 }

@@ -18,8 +18,6 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @Getter
-@AllArgsConstructor
-@Builder
 @Setter
 public class Dolbomi {
 
@@ -29,7 +27,7 @@ public class Dolbomi {
     @Column(nullable = false)
     private String name;
     @Column(unique = true, nullable = false)
-    private String id;
+    private String userId;
     @Column(nullable = false)
     private String pw;
     private String birth;
@@ -41,8 +39,8 @@ public class Dolbomi {
 
     private int care_auth;
 
-    @Enumerated(EnumType.STRING)
-    private UserRole role; // 역할 매핑 추가
+
+    private String role; // 역할 매핑 추가
 
     @OneToOne
     private Contract contract;

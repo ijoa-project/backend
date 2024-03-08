@@ -17,7 +17,7 @@ public class DolbomiInfoResponseDto {
     String phone;
 
     public DolbomiInfoResponseDto(Dolbomi dolbomi){
-        id = dolbomi.getId();
+        id = dolbomi.getUserId();
         name = dolbomi.getName();
         pw = dolbomi.getPw();
         birth = dolbomi.getBirth();

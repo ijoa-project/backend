@@ -7,13 +7,10 @@ import com.example.ijoa_refactoring.data.dto.LoginDto;
 import com.example.ijoa_refactoring.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.*;
 import com.example.ijoa_refactoring.data.dto.JoinDto;
 import com.example.ijoa_refactoring.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
@@ -33,9 +30,14 @@ public class UserController {
     }
 
     @PostMapping("/api/accountRegister")
-    public ResponseEntity<String> registerAccount(@RequestBody AccountRegisterDto accountRegisterDto){
+    public ResponseEntity<String> registerAccount(@RequestBody AccountRegisterDto accountRegisterDto) {
         userService.registerAccount(accountRegisterDto);
         return ResponseEntity.ok("계좌가 등록되었습니다.");
+    }
+    @GetMapping("/admin")
+    public String adminTest(){
+        return "관리자";
+
     }
 
 
