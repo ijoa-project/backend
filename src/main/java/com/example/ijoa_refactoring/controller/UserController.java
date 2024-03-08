@@ -1,6 +1,7 @@
 package com.example.ijoa_refactoring.controller;
 
 
+import com.example.ijoa_refactoring.data.dto.AccountRegisterDto;
 import com.example.ijoa_refactoring.data.dto.TokenDto;
 import com.example.ijoa_refactoring.data.dto.LoginDto;
 import com.example.ijoa_refactoring.service.UserService;
@@ -20,16 +21,22 @@ public class UserController {
     private final UserService userService;
 
 
+
     public UserController(UserService userService) {
         this.userService = userService;
 
     }
 
     @PostMapping("/api/user/join")
-    public ResponseEntity<String>join(@RequestBody JoinDto joinDto){
+    public ResponseEntity<String> join(@RequestBody JoinDto joinDto){
         return ResponseEntity.ok(userService.registerUser(joinDto));
     }
 
+    @PostMapping("/api/accountRegister")
+    public ResponseEntity<String> registerAccount(@RequestBody AccountRegisterDto accountRegisterDto){
+        userService.registerAccount(accountRegisterDto);
+        return ResponseEntity.ok("계좌가 등록되었습니다.");
+    }
 
 
 

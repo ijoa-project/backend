@@ -29,4 +29,7 @@ public class Parent {
 
     @Enumerated(EnumType.STRING)
     private UserRole role; // 역할 매핑 추가
+    @OneToOne
+    private Contract contract;
+
 }
