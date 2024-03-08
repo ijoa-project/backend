@@ -28,5 +28,9 @@ public class Parent {
     private String phone;
 
 
+    @OneToOne
+    private Contract contract;
+
     private String role; // 역할 매핑 추가
+
 }

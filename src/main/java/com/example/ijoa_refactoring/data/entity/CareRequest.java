@@ -30,5 +30,7 @@ public class CareRequest {
     private String content;
     private int state;
     private int cost;
+    @OneToOne
+    private Contract contract;
 
 }

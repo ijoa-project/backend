@@ -1,8 +1,23 @@
 package com.example.ijoa_refactoring.service;
 
+import com.example.ijoa_refactoring.data.dto.AccountRegisterDto;
 import com.example.ijoa_refactoring.data.dto.JoinDto;
+<<<<<<< HEAD
+import com.example.ijoa_refactoring.data.dto.LoginDto;
+import com.example.ijoa_refactoring.data.dto.TokenDto;
+import com.example.ijoa_refactoring.data.entity.Account;
 import com.example.ijoa_refactoring.data.entity.Dolbomi;
 import com.example.ijoa_refactoring.data.entity.Parent;
+import com.example.ijoa_refactoring.data.entity.UserRole;
+import com.example.ijoa_refactoring.data.repository.AccountRepository;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+=======
+import com.example.ijoa_refactoring.data.entity.Dolbomi;
+import com.example.ijoa_refactoring.data.entity.Parent;
+>>>>>>> 5b5f5e226830ae9e9d8f0e79d388310a8f656922
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.ijoa_refactoring.data.repository.DolbomiRepository;
@@ -14,13 +29,16 @@ public class UserService {
     private DolbomiRepository dolbomiRepository;
     private ParentRepository parentRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private AccountRepository accountRepository;
 
 
 
-    public UserService(DolbomiRepository dolbomiRepository, ParentRepository parentRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserService(DolbomiRepository dolbomiRepository, ParentRepository parentRepository, BCryptPasswordEncoder bCryptPasswordEncoder,
+                       AccountRepository accountRepository) {
         this.dolbomiRepository = dolbomiRepository;
         this.parentRepository = parentRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.accountRepository = accountRepository;
     }
 
 
@@ -63,6 +81,9 @@ public class UserService {
         return "회원가입 성공";
     }
 
+    public void registerAccount(AccountRegisterDto accountRegisterDto){
+        accountRepository.save(accountRegisterDto);
+    }
 
 
 
