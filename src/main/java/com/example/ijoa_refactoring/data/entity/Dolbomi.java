@@ -42,6 +42,8 @@ public class Dolbomi {
 
     private String role; // 역할 매핑 추가
 
+    @OneToOne
+    private Contract contract;
 
 
 }
