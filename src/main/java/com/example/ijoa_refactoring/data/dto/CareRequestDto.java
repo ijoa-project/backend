@@ -13,7 +13,6 @@ import java.util.List;
 public class CareRequestDto {
     @ElementCollection
     private List<String> careType;
-    private String term;
     private String startDate;
     private String endDate;
     private String startTime;

@@ -1,6 +1,8 @@
 package com.example.ijoa_refactoring.config;
 
 
+import com.example.ijoa_refactoring.data.repository.DolbomiRepository;
+import com.example.ijoa_refactoring.data.repository.ParentRepository;
 import com.example.ijoa_refactoring.jwt.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
@@ -29,10 +31,16 @@ public class SecurityConfig {
     private final AuthenticationConfiguration authenticationConfiguration;
 
     private final JWTUtil jwtUtil;
+    private final DolbomiRepository dolbomiRepository;
+    private final ParentRepository parentRepository;
 
-    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil) {
+
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil,
+                          DolbomiRepository dolbomiRepository, ParentRepository parentRepository) {
         this.authenticationConfiguration = authenticationConfiguration;
         this.jwtUtil = jwtUtil;
+        this.dolbomiRepository = dolbomiRepository;
+        this.parentRepository = parentRepository;
     }
 
     @Bean
@@ -62,7 +70,7 @@ public class SecurityConfig {
 
 
         http
-                .addFilterBefore(new JWTFilter(jwtUtil),LoginFilter.class);
+                .addFilterBefore(new JWTFilter(jwtUtil,dolbomiRepository,parentRepository),LoginFilter.class);
 
 
         http
@@ -81,7 +89,7 @@ public class SecurityConfig {
 
                         CorsConfiguration configuration = new CorsConfiguration();
 
-                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:8080"));
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));

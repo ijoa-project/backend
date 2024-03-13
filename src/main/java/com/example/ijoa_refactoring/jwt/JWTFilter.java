@@ -27,8 +27,10 @@ public class JWTFilter extends OncePerRequestFilter {
 
 
 
-    public JWTFilter(JWTUtil jwtUtil){
+    public JWTFilter(JWTUtil jwtUtil, DolbomiRepository dolbomiRepository, ParentRepository parentRepository){
         this.jwtUtil = jwtUtil;
+        this.dolbomiRepository = dolbomiRepository;
+        this.parentRepository = parentRepository;
     }
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
