@@ -38,12 +38,8 @@ public class Dolbomi {
     private String phone;
 
     private int care_auth;
-
-
     private String role; // 역할 매핑 추가
 
-    @OneToOne
-    private Contract contract;
 
 
 }

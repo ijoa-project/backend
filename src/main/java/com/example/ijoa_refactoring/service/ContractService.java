@@ -29,9 +29,9 @@ public class ContractService {
 
     public void registerContract(ContractRegisterDto contractRegisterDto){
         Contract contract = new Contract();
-        contract.setCareRequest(careRequestRepository.findById(contractRegisterDto.getCareRequestId()));
-        contract.setDolbomi(dolbomiRepository.findById(contractRegisterDto.getDolbomiId()));
-        contract.setParent(parentRepository.findById(contractRegisterDto.getParentId()));
+        contract.setCareRequestId(contractRegisterDto.getCareRequestId());
+        contract.setDolbomiId(contractRegisterDto.getDolbomiId());
+        contract.setParentId(contractRegisterDto.getParentId());
         contract.setCareType(contractRegisterDto.getCareType());
         contract.setStartDate(contractRegisterDto.getStartDate());
         contract.setEndDate(contractRegisterDto.getEndDate());
