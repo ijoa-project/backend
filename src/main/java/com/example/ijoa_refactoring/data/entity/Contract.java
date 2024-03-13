@@ -15,12 +15,9 @@ public class Contract {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int contractId;
-    @OneToOne(mappedBy = "contract")
-    private CareRequest careRequest;
-    @OneToOne(mappedBy = "contract")
-    private Dolbomi dolbomi;
-    @OneToOne(mappedBy = "contract")
-    private Parent parent;
+    private int careRequestId;
+    private int dolbomiId;
+    private int parentId;
     private String startDate;
     private String endDate;
     private String startTime;
