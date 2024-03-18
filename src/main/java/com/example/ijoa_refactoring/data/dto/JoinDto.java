@@ -10,7 +10,7 @@ import lombok.Setter;
 public class JoinDto {
     private String position;
     private String name;
-    private String id;
+    private String userId;
     private String pw;
     private String birthDate;
     private String gender;
