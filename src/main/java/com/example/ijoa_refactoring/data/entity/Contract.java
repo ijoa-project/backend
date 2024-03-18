@@ -1,9 +1,6 @@
 package com.example.ijoa_refactoring.data.entity;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,13 +13,11 @@ import java.util.List;
 @Setter
 public class Contract {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int contractId;
-    @OneToOne(mappedBy = "contract")
-    private CareRequest careRequest;
-    @OneToOne(mappedBy = "contract")
-    private Dolbomi dolbomi;
-    @OneToOne(mappedBy = "contract")
-    private Parent parent;
+    private int careRequestId;
+    private int dolbomiId;
+    private int parentId;
     private String startDate;
     private String endDate;
     private String startTime;

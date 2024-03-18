@@ -14,6 +14,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import com.example.ijoa_refactoring.data.entity.Dolbomi;
 import com.example.ijoa_refactoring.data.entity.Parent;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.ijoa_refactoring.data.repository.DolbomiRepository;
@@ -78,7 +80,24 @@ public class UserService {
     }
 
     public void registerAccount(AccountRegisterDto accountRegisterDto){
-        accountRepository.save(accountRegisterDto);
+        Account account = new Account();
+        account.setDepositor(accountRegisterDto.getDepositor());
+        account.setBank(accountRegisterDto.getBank());
+        account.setAccount(accountRegisterDto.getAccount());
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // 사용자 정보 추출
+        if (authentication != null && authentication.isAuthenticated()) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                String username = userDetails.getUsername(); // 사용자 아이디 가져오기
+                // 사용자 아이디를 계좌 정보에 설정
+                account.setUserId(username);
+            }
+        }
+        accountRepository.save(account);
     }
 
 

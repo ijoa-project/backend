@@ -16,9 +16,9 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class ContractRegisterDto {
-    private CareRequest careRequest;
-    private Dolbomi dolbomi;
-    private Parent parent;
+    private int careRequestId;
+    private int dolbomiId;
+    private int parentId;
     private String startDate;
     private String endDate;
     private String startTime;

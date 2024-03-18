@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ParentRepository extends JpaRepository<Parent, Integer> {
     Parent findByUserId(String userId);
-
+    Parent findById(int parentId);
     Boolean existsByUserId(String userId);
 }
