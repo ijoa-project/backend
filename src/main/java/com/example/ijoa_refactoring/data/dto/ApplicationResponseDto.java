@@ -3,9 +3,8 @@ package com.example.ijoa_refactoring.data.dto;
 import lombok.Data;
 
 import java.util.List;
-
 @Data
-public class ApplicationRequestDto {
+public class ApplicationResponseDto {
     private List<String> day;
     private List<String> time;
     private List<String> hopeAge;

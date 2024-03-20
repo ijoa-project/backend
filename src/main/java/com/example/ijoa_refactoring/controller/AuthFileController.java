@@ -9,9 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @NoArgsConstructor
 @RestController
@@ -19,9 +17,14 @@ public class AuthFileController {
 
     private DolbomiAuthService dolbomiAuthService;
 
+    public  AuthFileController(DolbomiAuthService dolbomiAuthService){
+        this.dolbomiAuthService = dolbomiAuthService;
+
+    }
+
 
     @PostMapping("/api/auth/step1")
-    public ResponseEntity<String> registerLicense(HttpServletRequest request, @RequestBody DolbomiLicenseRequestDto licenseRequestDto){
+    public ResponseEntity<String> registerLicense(HttpServletRequest request, @RequestParam DolbomiLicenseRequestDto licenseRequestDto){
         String userId = FindUserInfo.getCurrentUserId();
         int result = dolbomiAuthService.uploadLicenseFile(userId, licenseRequestDto,request);
 
