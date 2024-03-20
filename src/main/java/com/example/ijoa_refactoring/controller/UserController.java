@@ -1,14 +1,11 @@
 package com.example.ijoa_refactoring.controller;
 
 
-import com.example.ijoa_refactoring.data.dto.AccountRegisterDto;
-import com.example.ijoa_refactoring.data.dto.TokenDto;
-import com.example.ijoa_refactoring.data.dto.LoginDto;
+import com.example.ijoa_refactoring.data.dto.*;
 import com.example.ijoa_refactoring.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.web.bind.annotation.*;
-import com.example.ijoa_refactoring.data.dto.JoinDto;
 import com.example.ijoa_refactoring.service.UserService;
 import org.springframework.http.ResponseEntity;
 
@@ -40,6 +37,11 @@ public class UserController {
 
     }
 
+    @GetMapping("/api/mypage")
+    public ResponseEntity<MypageResponseDto> mypage(){
+        MypageResponseDto mypageResponseDto = userService.mypage();
+        return ResponseEntity.ok(mypageResponseDto);
+    }
 
 
 
