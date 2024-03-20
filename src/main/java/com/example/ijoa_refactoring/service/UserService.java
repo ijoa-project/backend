@@ -1,9 +1,6 @@
 package com.example.ijoa_refactoring.service;
 
-import com.example.ijoa_refactoring.data.dto.AccountRegisterDto;
-import com.example.ijoa_refactoring.data.dto.JoinDto;
-import com.example.ijoa_refactoring.data.dto.LoginDto;
-import com.example.ijoa_refactoring.data.dto.TokenDto;
+import com.example.ijoa_refactoring.data.dto.*;
 import com.example.ijoa_refactoring.data.entity.Account;
 import com.example.ijoa_refactoring.data.entity.Dolbomi;
 import com.example.ijoa_refactoring.data.entity.Parent;
@@ -100,6 +97,30 @@ public class UserService {
         accountRepository.save(account);
     }
 
+    public MypageResponseDto mypage(){
+        MypageResponseDto returnDto = new MypageResponseDto();
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                String username = userDetails.getUsername(); // 사용자 아이디 가져오기
+                Parent parent = parentRepository.findByUserId(username);
+                if(parent!=null){
+                    returnDto.setUserId(parent.getUserId());
+                    returnDto.setName(parent.getName());
+                    returnDto.setEmail(parent.getEmail());
+                }else{
+                    Dolbomi dolbomi = dolbomiRepository.findByUserId(username);
+                    returnDto.setUserId(dolbomi.getUserId());
+                    returnDto.setName(dolbomi.getName());
+                    returnDto.setEmail(dolbomi.getEmail());
+                }
+            }
+        }
+        return returnDto;
+    }
 
 }
