@@ -18,14 +18,16 @@ public class Contract {
     private int careRequestId;
     private int dolbomiId;
     private int parentId;
-    private String startDate;
-    private String endDate;
+    @ElementCollection
+    private List<String> date;
     private String startTime;
     private String endTime;
     private String regularity;
     private String region;
     @ElementCollection
     private List<String> careType;
+    @ElementCollection
+    private List<String> day;
     private int totalCost;
     private String paymentState;
 

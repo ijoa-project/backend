@@ -16,8 +16,8 @@ public class CareRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int careRequestId;
     private String day;
-    private String startDate;
-    private String endDate;
+    @ElementCollection
+    private List<String> date;
     private String startTime;
     private String endTime;
     private int childAge;

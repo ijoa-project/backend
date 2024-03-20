@@ -10,11 +10,11 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class CareRequestDto {
+public class CareRequestRequestDto {
     @ElementCollection
     private List<String> careType;
-    private String startDate;
-    private String endDate;
+    @ElementCollection
+    private List<String> date;
     private String startTime;
     private String endTime;
     private String time;
