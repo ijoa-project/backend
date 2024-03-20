@@ -1,7 +1,7 @@
 package com.example.ijoa_refactoring.service;
 
 import com.example.ijoa_refactoring.data.repository.CareRequestRepository;
-import com.example.ijoa_refactoring.data.dto.CareRequestDto;
+import com.example.ijoa_refactoring.data.dto.CareRequestRequestDto;
 import com.example.ijoa_refactoring.data.entity.CareRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,15 +22,14 @@ public class CareRequestService {
         this.careRequestRepository = careRequestRepository;
     }
 
-    public void registerCareRequest(CareRequestDto careRequestDto){
+    public void registerCareRequest(CareRequestRequestDto careRequestDto){
         CareRequest careRequest = new CareRequest();
         careRequest.setCareType(careRequestDto.getCareType());
         careRequest.setDay(careRequest.getDay());
         careRequest.setRegularity(careRequestDto.getRegularity());
         careRequest.setChildGender(careRequestDto.getChildGender());
         careRequest.setChildAge(careRequestDto.getChildAge());
-        careRequest.setStartDate(careRequestDto.getStartDate());
-        careRequest.setEndDate(careRequestDto.getEndDate());
+        careRequest.setDate(careRequestDto.getDate());
         careRequest.setRegion(careRequestDto.getRegion());
         careRequest.setTitle(careRequestDto.getTitle());
         careRequest.setContent(careRequestDto.getContent());
@@ -43,15 +42,14 @@ public class CareRequestService {
         return careRequest;
     }
 
-    public void updateCareRequest(int careRequestId, CareRequestDto careRequestDto){
+    public void updateCareRequest(int careRequestId, CareRequestRequestDto careRequestDto){
         CareRequest careRequest = careRequestRepository.findById(careRequestId);
         careRequest.setCareType(careRequestDto.getCareType());
         careRequest.setDay(careRequest.getDay());
         careRequest.setRegularity(careRequestDto.getRegularity());
         careRequest.setChildGender(careRequestDto.getChildGender());
         careRequest.setChildAge(careRequestDto.getChildAge());
-        careRequest.setStartDate(careRequestDto.getStartDate());
-        careRequest.setEndDate(careRequestDto.getEndDate());
+        careRequest.setDate(careRequestDto.getDate());
         careRequest.setRegion(careRequestDto.getRegion());
         careRequest.setTitle(careRequestDto.getTitle());
         careRequest.setContent(careRequestDto.getContent());
@@ -64,7 +62,7 @@ public class CareRequestService {
 
     public Page<CareRequest> getList(int page){
         List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("createDate"));
+        sorts.add(Sort.Order.desc("careRequestId"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
         return careRequestRepository.findAll(pageable);
     }
