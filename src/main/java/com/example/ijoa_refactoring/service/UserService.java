@@ -41,16 +41,16 @@ public class UserService {
     public String registerUser(JoinDto joinDto){
 
 
-        if(dolbomiRepository.existsByUserId(joinDto.getId())){
+        if(dolbomiRepository.existsByUserId(joinDto.getUserId())){
             return "아이디가 중복입니다.";
-        }else if(parentRepository.existsByUserId(joinDto.getId())){
+        }else if(parentRepository.existsByUserId(joinDto.getUserId())){
             return "아이디가 중복입니다.";
         }
 
         if(joinDto.getPosition().equals("dolbomi")){
             Dolbomi dolbomi = new Dolbomi();
             dolbomi.setName(joinDto.getName());
-            dolbomi.setUserId(joinDto.getId());
+            dolbomi.setUserId(joinDto.getUserId());
             dolbomi.setRole("Dolbomi");
             dolbomi.setPw(bCryptPasswordEncoder.encode(joinDto.getPw()));
             dolbomi.setGender(joinDto.getGender());
@@ -63,7 +63,7 @@ public class UserService {
             Parent parent = new Parent();
             parent.setName(joinDto.getName());
             parent.setRole("Parent");
-            parent.setUserId(joinDto.getId());
+            parent.setUserId(joinDto.getUserId());
             parent.setPw(bCryptPasswordEncoder.encode(joinDto.getPw()));
             parent.setGender(joinDto.getGender());
             parent.setBirth(joinDto.getBirthDate());
