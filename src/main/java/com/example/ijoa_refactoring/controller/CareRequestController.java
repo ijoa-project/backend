@@ -1,6 +1,6 @@
 package com.example.ijoa_refactoring.controller;
 
-import com.example.ijoa_refactoring.data.dto.CareRequestDto;
+import com.example.ijoa_refactoring.data.dto.CareRequestRequestDto;
 import com.example.ijoa_refactoring.data.entity.CareRequest;
 import com.example.ijoa_refactoring.service.CareRequestService;
 import org.springframework.data.domain.Page;
@@ -16,7 +16,7 @@ public class CareRequestController {
     }
 
     @PostMapping("/api/registerCareRequest")
-    public ResponseEntity<String> registerCareRequest(@RequestBody CareRequestDto careRequestDto){
+    public ResponseEntity<String> registerCareRequest(@RequestBody CareRequestRequestDto careRequestDto){
         careRequestService.registerCareRequest(careRequestDto);
         return ResponseEntity.ok("돌봄요청이 정상적으로 등록되었습니다.");
     }
@@ -27,9 +27,9 @@ public class CareRequestController {
         return ResponseEntity.ok(careRequest);
     }
 
-    @PostMapping("/api/updateCareRequest/{careRequestId}")
+    @PutMapping("/api/updateCareRequest/{careRequestId}")
     public ResponseEntity<String> updateCareRequest(@PathVariable int careRequestId,
-            @RequestBody CareRequestDto careRequestDto){
+            @RequestBody CareRequestRequestDto careRequestDto){
         careRequestService.updateCareRequest(careRequestId, careRequestDto);
         return ResponseEntity.ok("돌봄요청이 수정되었습니다.");
     }
@@ -41,8 +41,8 @@ public class CareRequestController {
     }
 
     @GetMapping("/api/careRequestList")
-    public ResponseEntity<String> list(@RequestParam(value="page", defaultValue="0") int page) {
+    public ResponseEntity<Page<CareRequest>> list(@RequestParam(value="page", defaultValue="0") int page) {
         Page<CareRequest> paging = careRequestService.getList(page);
-        return ResponseEntity.ok("돌봄요청 리스트 출력");
+        return ResponseEntity.ok(paging);
     }
 }

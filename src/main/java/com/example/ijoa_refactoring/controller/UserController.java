@@ -29,7 +29,7 @@ public class UserController {
         return ResponseEntity.ok(userService.registerUser(joinDto));
     }
 
-    @PostMapping("/api/accountRegister")
+    @PostMapping("/api/registerAccount")
     public ResponseEntity<String> registerAccount(@RequestBody AccountRegisterDto accountRegisterDto) {
         userService.registerAccount(accountRegisterDto);
         return ResponseEntity.ok("계좌가 등록되었습니다.");

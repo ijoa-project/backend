@@ -19,10 +19,10 @@ public class ContractRegisterDto {
     private int careRequestId;
     private int dolbomiId;
     private int parentId;
-    private String startDate;
-    private String endDate;
+    private List<String> date;
     private String startTime;
     private String endTime;
+    private List<String> day;
     private String regularity;
     private String region;
     private List<String> careType;

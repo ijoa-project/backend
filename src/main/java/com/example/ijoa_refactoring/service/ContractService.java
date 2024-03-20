@@ -33,8 +33,7 @@ public class ContractService {
         contract.setDolbomiId(contractRegisterDto.getDolbomiId());
         contract.setParentId(contractRegisterDto.getParentId());
         contract.setCareType(contractRegisterDto.getCareType());
-        contract.setStartDate(contractRegisterDto.getStartDate());
-        contract.setEndDate(contractRegisterDto.getEndDate());
+        contract.setDate(contractRegisterDto.getDate());
         contract.setStartTime(contractRegisterDto.getStartTime());
         contract.setEndTime(contractRegisterDto.getEndTime());
         contract.setRegion(contractRegisterDto.getRegion());
