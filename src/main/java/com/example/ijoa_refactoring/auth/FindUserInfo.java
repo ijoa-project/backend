@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class FindUserInfo {
-
+    // build test
     private static DolbomiRepository dolbomiRepository;
     private static ParentRepository parentRepository;
 
