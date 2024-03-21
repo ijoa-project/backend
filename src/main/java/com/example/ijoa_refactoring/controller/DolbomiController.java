@@ -3,19 +3,27 @@ package com.example.ijoa_refactoring.controller;
 import com.example.ijoa_refactoring.auth.FindUserInfo;
 import com.example.ijoa_refactoring.data.dto.ApplicationRequestDto;
 import com.example.ijoa_refactoring.data.dto.ApplicationResponseDto;
+import com.example.ijoa_refactoring.data.dto.ContractHistoryResponseDto;
+import com.example.ijoa_refactoring.data.dto.ContractResponseDto;
 import com.example.ijoa_refactoring.data.entity.Application;
 import com.example.ijoa_refactoring.service.ApplicationService;
+import com.example.ijoa_refactoring.service.CareHistoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class DolbomiController {
 
     private ApplicationService applicationService;
 
-    public DolbomiController(ApplicationService applicationService){
+    private CareHistoryService careHistoryService;
+
+    public DolbomiController(ApplicationService applicationService, CareHistoryService careHistoryService){
         this.applicationService = applicationService;
+        this.careHistoryService = careHistoryService;
     }
 
     @PostMapping("/api/dolbomi/register")
@@ -58,6 +66,23 @@ public class DolbomiController {
         applicationService.deleteApplication(userId);
 
         return ResponseEntity.ok("지원서가 삭제되었습니다.");
+    }
+
+    @GetMapping("/api/dolbomi/mypage/carehistory")
+    public ResponseEntity<List<ContractHistoryResponseDto>> getConractHistory(){
+        String userId = FindUserInfo.getCurrentUserId();
+
+        List<ContractHistoryResponseDto> dto = careHistoryService.getCareHistory(userId);
+
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/api/dolbmi/mypage/carehistory/{contractId}")
+    public ResponseEntity<ContractResponseDto> getContract(@PathVariable int contractId){
+
+        ContractResponseDto dto = careHistoryService.getContract(contractId);
+
+        return ResponseEntity.ok(dto);
     }
 
 }
