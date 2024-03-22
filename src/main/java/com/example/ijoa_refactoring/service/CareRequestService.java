@@ -1,8 +1,12 @@
 package com.example.ijoa_refactoring.service;
 
+import com.example.ijoa_refactoring.data.dto.SearchRequestDto;
 import com.example.ijoa_refactoring.data.repository.CareRequestRepository;
 import com.example.ijoa_refactoring.data.dto.CareRequestRequestDto;
 import com.example.ijoa_refactoring.data.entity.CareRequest;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +20,8 @@ import java.util.List;
 @Service
 public class CareRequestService {
     private CareRequestRepository careRequestRepository;
+    @PersistenceContext
+    EntityManager entityManager;
 
     @Autowired
     public CareRequestService(CareRequestRepository careRequestRepository){
@@ -65,5 +71,27 @@ public class CareRequestService {
         sorts.add(Sort.Order.desc("careRequestId"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
         return careRequestRepository.findAll(pageable);
+    }
+
+    public List<CareRequest> search(SearchRequestDto searchRequestDto){
+        String jpql = "SELECT cr FROM CareRequest cr " +
+                "WHERE cr.regularity in :regularity " +
+                "AND cr.day in :day " +
+                "AND cr.careType in :careType";
+
+        TypedQuery<CareRequest> query = entityManager.createQuery(jpql, CareRequest.class);
+        query.setParameter("regularity", searchRequestDto.getRegularity());
+        query.setParameter("day", searchRequestDto.getDay());
+        query.setParameter("careType", searchRequestDto.getCareType());
+        List<CareRequest> list = query.getResultList();
+        List<CareRequest> returnList = new ArrayList<>();
+        for(CareRequest careRequest : list){
+            String[] address = careRequest.getRegion().split(" ");
+            if(address[0].equals(searchRequestDto.getSi())&&
+            searchRequestDto.getGu().contains(address[1])){
+                returnList.add(careRequest);
+            }
+        }
+        return returnList;
     }
 }

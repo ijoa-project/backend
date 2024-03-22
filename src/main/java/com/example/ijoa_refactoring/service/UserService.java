@@ -112,11 +112,13 @@ public class UserService {
                     returnDto.setUserId(parent.getUserId());
                     returnDto.setName(parent.getName());
                     returnDto.setEmail(parent.getEmail());
+                    returnDto.setPosition("parent");
                 }else{
                     Dolbomi dolbomi = dolbomiRepository.findByUserId(username);
                     returnDto.setUserId(dolbomi.getUserId());
                     returnDto.setName(dolbomi.getName());
                     returnDto.setEmail(dolbomi.getEmail());
+                    returnDto.setPosition("dolbomi");
                 }
             }
         }
