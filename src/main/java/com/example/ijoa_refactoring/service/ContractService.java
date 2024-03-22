@@ -39,6 +39,7 @@ public class ContractService {
         contract.setRegion(contractRegisterDto.getRegion());
         contract.setRegularity(contractRegisterDto.getRegularity());
         contract.setTotalCost(contractRegisterDto.getTotalCost());
+        contract.setPaymentState("정산전");
         contractRepository.save(contract);
     }
 }

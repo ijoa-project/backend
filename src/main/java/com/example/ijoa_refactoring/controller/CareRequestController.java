@@ -1,11 +1,14 @@
 package com.example.ijoa_refactoring.controller;
 
 import com.example.ijoa_refactoring.data.dto.CareRequestRequestDto;
+import com.example.ijoa_refactoring.data.dto.SearchRequestDto;
 import com.example.ijoa_refactoring.data.entity.CareRequest;
 import com.example.ijoa_refactoring.service.CareRequestService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class CareRequestController {
@@ -44,5 +47,11 @@ public class CareRequestController {
     public ResponseEntity<Page<CareRequest>> list(@RequestParam(value="page", defaultValue="0") int page) {
         Page<CareRequest> paging = careRequestService.getList(page);
         return ResponseEntity.ok(paging);
+    }
+
+    @GetMapping("/api/search")
+    public ResponseEntity<List<CareRequest>> search(@RequestBody SearchRequestDto searchRequestDto){
+        List<CareRequest> list = careRequestService.search(searchRequestDto);
+        return ResponseEntity.ok(list);
     }
 }
