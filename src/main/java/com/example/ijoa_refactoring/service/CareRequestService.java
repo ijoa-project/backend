@@ -74,24 +74,36 @@ public class CareRequestService {
     }
 
     public List<CareRequest> search(SearchRequestDto searchRequestDto){
+        String regularity = String.valueOf(searchRequestDto.getRegularity());
+        String day = String.valueOf(searchRequestDto.getDay());
+        String careType = String.valueOf(searchRequestDto.getCareType());
         String jpql = "SELECT cr FROM CareRequest cr " +
-                "WHERE cr.regularity in :regularity " +
-                "AND cr.day in :day " +
-                "AND cr.careType in :careType";
+                "WHERE :regularity LIKE CONCAT('%',cr.regularity,'%') " +
+                "AND :day LIKE CONCAT ('%',cr.day,'%')";
 
         TypedQuery<CareRequest> query = entityManager.createQuery(jpql, CareRequest.class);
-        query.setParameter("regularity", searchRequestDto.getRegularity());
-        query.setParameter("day", searchRequestDto.getDay());
-        query.setParameter("careType", searchRequestDto.getCareType());
+        query.setParameter("regularity", regularity);
+        query.setParameter("day", day);
         List<CareRequest> list = query.getResultList();
-        List<CareRequest> returnList = new ArrayList<>();
+        System.out.println(list);
+        List<CareRequest> tempList = new ArrayList<>();
         for(CareRequest careRequest : list){
             String[] address = careRequest.getRegion().split(" ");
             if(address[0].equals(searchRequestDto.getSi())&&
             searchRequestDto.getGu().contains(address[1])){
-                returnList.add(careRequest);
+                tempList.add(careRequest);
+                continue;
             }
         }
+        System.out.println(tempList);
+        List<CareRequest> returnList = new ArrayList<>();
+        for(CareRequest careRequest : tempList){
+            for(String s : careRequest.getCareType()){
+                if(careType.contains(s)) returnList.add(careRequest);
+                break;
+            }
+        }
+        System.out.println(returnList);
         return returnList;
     }
 }
